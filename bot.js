@@ -15,8 +15,8 @@ client.on('message', message => {
   }
 
   if(message.content === '!quack'){
-    if(message.member.voiceChannel && (userCooldowns[message.member.author.username] == undefined || userCooldowns[message.member.author.username] == 0)){
-      userCooldowns[message.member.author.username] = 5;
+    if(message.member.voiceChannel && (userCooldowns[message.member.author] == undefined || userCooldowns[message.member.author] == 0)){
+      userCooldowns[message.member.author] = 5;
       message.member.voiceChannel.join()
       .then(connection => {
         const dispatcher = connection.playFile('C:/Users/Ryan/Documents/Quack-Sound-Effect.mp3');
@@ -28,8 +28,8 @@ client.on('message', message => {
       .catch(console.log);
     }
     else{
-      if (userCooldowns[message.member.author.username] != undefined && userCooldowns[message.member.author.username] == 0){
-          message.reply('Cooldown remaining: ' + userCooldowns[message.member.author.username]);
+      if (message.member.voiceChannel && (userCooldowns[message.member.username] != undefined || userCooldowns[message.member.username] > 0)){
+          message.reply('Cooldown remaining: ' + userCooldowns[message.member.author]);
       }
       else{
           message.reply('You need to join a channel first!');
@@ -37,7 +37,7 @@ client.on('message', message => {
     }
   }
   if(message.content === ':duck:'){
-    if (message.member.author.bot == True){
+    if (message.member.bot == true){
        message.delete(3).catch(console.error);
     }
   }
